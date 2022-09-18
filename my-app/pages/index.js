@@ -18,10 +18,9 @@ export default function Home() {
   //using web3modal library for easy wallet integration
   const web3ModalRef = useRef();
 
-  
   const getProviderOrSigner = async (needSigner = false) => {
     // Connect to Metamask
-   
+
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
@@ -39,8 +38,7 @@ export default function Home() {
     return web3Provider;
   };
 
-  
-   //addAddressToWhitelist: Adds the current connected address to the whitelist 
+  //addAddressToWhitelist: Adds the current connected address to the whitelist
   const addAddressToWhitelist = async () => {
     try {
       // We need a Signer here since this is a 'write' transaction.
@@ -55,7 +53,7 @@ export default function Home() {
       // call the addAddressToWhitelist from the contract
       const tx = await whitelistContract.addAddressToWhitelist();
       setLoading(true);
-      
+
       await tx.wait();
       setLoading(false);
       // get the updated number of addresses in the whitelist
@@ -80,14 +78,15 @@ export default function Home() {
         provider
       );
       // call the numAddressesWhitelisted from the contract
-      const _numberOfWhitelisted = await whitelistContract.numAddressesWhitelisted();
+      const _numberOfWhitelisted =
+        await whitelistContract.numAddressesWhitelisted();
       setNumberOfWhitelisted(_numberOfWhitelisted);
     } catch (err) {
       console.error(err);
     }
   };
 
- //checkIfAddressInWhitelist: Checks if the address is in whitelist or not
+  //checkIfAddressInWhitelist: Checks if the address is in whitelist or not
   const checkIfAddressInWhitelist = async () => {
     try {
       // We will need the signer later to get the user's address
@@ -126,22 +125,22 @@ export default function Home() {
     }
   };
 
- //renderButton: Returns a button based on the state of the dapp
+  //renderButton: Returns a button based on the state of the dapp
   const renderButton = () => {
     if (walletConnected) {
       if (joinedWhitelist) {
         return (
-          <div className={styles.description}>
+          <div className={styles.h6}>
             Thanks for joining the Whitelist!
           </div>
         );
       } else if (loading) {
-        return <button className={styles.button}>Loading...</button>;
+        return <button className={styles.btn}>Loading...</button>;
       } else {
         return (
-          <button onClick={addAddressToWhitelist} className={styles.button}>
-            Join the Whitelist
-          </button>
+          <div>
+            <button onClick={addAddressToWhitelist} className={styles.btn}>Join Whitelist</button>
+        </div>
         );
       }
     } else {
@@ -153,14 +152,11 @@ export default function Home() {
     }
   };
 
-  
-  
   //react to the change in state
   //when connected wallet  changes it is called
   useEffect(() => {
     // if wallet is not connected, create a new instance of Web3Modal and connect the MetaMask wallet
     if (!walletConnected) {
-      
       web3ModalRef.current = new Web3Modal({
         network: "goerli",
         providerOptions: {},
@@ -177,26 +173,34 @@ export default function Home() {
         <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className={styles.logo}> Diggerzz... </div>
       <div className={styles.main}>
-        <div>
-          <h1 className={styles.title}>Welcome .. Let's whitelist you !</h1>
-          <div className={styles.description}>
-            Enter the whitelist to receive your nft
+        <div className={styles.maintxt}>
+          <div className={styles.title}>
+            <h1 className={styles.h1}>Welcome ..</h1>  
+            <h2 className={styles.h2}>Let's whitelist you !</h2>         
+            <h6 className={styles.h6}>Enter the whitelist to receive your nft</h6>
+            <div className={styles.noofusers}>
+              <div className={styles.no}>
+                {numberOfWhitelisted}
+              </div>  
+              <div className={styles.notxt}>
+                <h6 className={styles.h6}> have already</h6>   
+                <h6 className={styles.h6}> joined the</h6>
+                <h5 className={styles.h5}> WHITELIST</h5>
+              </div>
+            </div>
+            {renderButton()}
+            <div className={styles.foot}>
+                <h6 className={styles.h6}> Made with &#10084; by QuadCore</h6>
+            </div>
           </div>
-          <div className={styles.description}>
-            {numberOfWhitelisted} have already joined the Whitelist
-          </div>
-          {renderButton()}
-        </div>
-        <div>
-          <img className={styles.image} src="./crypto-devs.svg.svg" />
         </div>
       </div>
-    
-
-      <footer className={styles.footer}>
-        Made with &#10084; by QuadCore
-      </footer>
     </div>
   );
 }
+
+
+
+
