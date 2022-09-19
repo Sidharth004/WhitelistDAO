@@ -178,7 +178,7 @@ export default function Home() {
         <div className={styles.maintxt}>
           <div className={styles.title}>
             <h1 className={styles.h1}>Welcome ..</h1>  
-            <h2 className={styles.h2}>Let's whitelist you !</h2>         
+            <h2 className={styles.h2}>Let us whitelist you !</h2>         
             <h6 className={styles.h6}>Enter the whitelist to receive your nft</h6>
             <div className={styles.noofusers}>
               <div className={styles.no}>
